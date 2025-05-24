@@ -6,6 +6,8 @@ librerias de pandas para resolver las preguntas.
 """
 
 
+import pandas as pd  # Importamos pandas para el manejo de datos
+
 def pregunta_10():
     """
     Construya una tabla que contenga `c1` y una lista separada por ':' de los
@@ -20,3 +22,9 @@ def pregunta_10():
     D                   1:2:3:5:5:7
     E   1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
+    ruta_archivo = "files/input/tbl0.tsv"  # Ruta al archivo TSV
+    tbl0 = pd.read_csv(ruta_archivo, sep="\t")  # Leemos el archivo como un DataFrame
+    agrupado = tbl0.groupby("c1")["c2"].apply(lambda x: ":".join(map(str, sorted(x))))  # Agrupamos por 'c1' y unimos valores de 'c2' ordenados
+    return agrupado.to_frame()  # Convertimos la serie resultante en DataFrame
+
+print(pregunta_10())  # Imprimimos la tabla resultante

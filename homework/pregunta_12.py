@@ -6,6 +6,8 @@ librerias de pandas para resolver las preguntas.
 """
 
 
+import pandas as pd  # Importamos pandas para manipular los datos
+
 def pregunta_12():
     """
     Construya una tabla que contenga `c0` y una lista separada por ','
@@ -22,3 +24,16 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
+    ruta_archivo = "files/input/tbl2.tsv"  # Ruta del archivo TSV
+    tbl2 = pd.read_csv(ruta_archivo, sep="\t")  # Leemos el archivo como DataFrame
+
+    # Unimos columnas 'c5a' y 'c5b' como texto con ':'
+    tbl2["combinado"] = tbl2["c5a"] + ":" + tbl2["c5b"].astype(str)
+
+    # Agrupamos por 'c0' y unimos los valores combinados con ','
+    agrupado = tbl2.groupby("c0")["combinado"].apply(lambda x: ",".join(sorted(x)))
+
+    # Retornamos el DataFrame resultante
+    return agrupado.reset_index(name="c5")
+
+print(pregunta_12())  # Mostramos la tabla con la columna combinada
